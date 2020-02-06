@@ -1,25 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Router } from "@reach/router";
+import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
+import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+import { HomePage } from "./pages/home";
+import { LoginPage } from "./pages/login";
+import { SignupPage } from "./pages/signup";
+import { NavBar } from "./components/NavBar";
+import themeObject from "./utils/themes";
+import "./App.css";
+
+const theme = createMuiTheme(themeObject);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MuiThemeProvider theme={theme}>
+      <React.Fragment>
+        <div className="container">
+          <NavBar />
+          <Router>
+            <HomePage path="/" />
+            <LoginPage path="/login" />
+            <SignupPage path="/signup" />
+          </Router>
+        </div>
+      </React.Fragment>
+    </MuiThemeProvider>
   );
 }
 
