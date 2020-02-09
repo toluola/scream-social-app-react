@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Grid from "@material-ui/core/Grid";
 import Scream from "../components/Scream";
+import Profile from "../components/Profile";
 
 export const HomePage = () => {
   const [getScreams, setGetScreams] = useState([]);
@@ -22,7 +23,7 @@ export const HomePage = () => {
         {originalScreams}
       </Grid>
       <Grid item sm={4} xs={12}>
-        <p>Content...</p>
+        <Profile />
       </Grid>
     </Grid>
   );

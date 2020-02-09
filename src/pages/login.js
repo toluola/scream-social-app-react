@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { Link } from "@reach/router";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import AppIcon from "../assets/icon.png";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import axios from "axios";
-import { navigate } from "@reach/router";
+import { loginUser } from "../redux/actions/userActions";
 
 const styles = {
   form: {
@@ -39,28 +39,26 @@ const styles = {
   }
 };
 
-const LoginPage = ({ classes }) => {
+const LoginPage = ({
+  classes,
+  history,
+  loginUser,
+  UI: { loading, errors }
+}) => {
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   });
   const { email, password } = formData;
+  const [error, setError] = useState({});
 
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+  useEffect(() => {
+    setError(errors);
+  }, [errors]);
 
   const handleSubmit = async event => {
-    try {
-      event.preventDefault();
-      setLoading(() => true);
-      const loginResult = await axios.post("/login", formData);
-      localStorage.setItem("screamToken", `Bearer ${loginResult.data.token}`);
-      setLoading(false);
-      navigate("/");
-    } catch (err) {
-      setLoading(false);
-      setErrors(err.response.data);
-    }
+    event.preventDefault();
+    loginUser(formData, history);
   };
 
   const handleChange = event => {
@@ -87,8 +85,8 @@ const LoginPage = ({ classes }) => {
             label="email"
             className={classes.textField}
             value={email}
-            helperText={errors.email}
-            error={errors.email ? true : false}
+            helperText={error.email}
+            error={error.email ? true : false}
             onChange={handleChange}
             fullWidth
           />
@@ -98,15 +96,15 @@ const LoginPage = ({ classes }) => {
             type="password"
             label="password"
             className={classes.textField}
-            helperText={errors.password}
-            error={errors.password ? true : false}
+            helperText={error.password}
+            error={error.password ? true : false}
             value={password}
             onChange={handleChange}
             fullWidth
           />
-          {errors.general && (
+          {error.general && (
             <Typography variant="body2" className={classes.customError}>
-              {errors.general}
+              {error.general}
             </Typography>
           )}
           <Button
@@ -132,8 +130,16 @@ const LoginPage = ({ classes }) => {
   );
 };
 
+const mapStateToProps = state => ({
+  user: state.user,
+  UI: state.UI
+});
+
 LoginPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(LoginPage);
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(withStyles(styles)(LoginPage));

@@ -1,13 +1,15 @@
 import React from "react";
-import { Router, Redirect } from "@reach/router";
+import { Route, Redirect } from "react-router-dom";
+import { authenticate } from "../utils/decodeToken";
 
-const AuthRoute = ({ component: Component, authenticated, ...rest }) => (
-  <Router
+export const PrivateRoute = ({ component: Component, render, ...rest }) => (
+  <Route
     {...rest}
-    render={props =>
-      authenticated === true ? <Redirect to="/" /> : <Component {...props} />
-    }
+    render={props => {
+      if (!authenticate()) {
+        return <Redirect to="/login" />;
+      }
+      return Component ? <Component {...props} /> : render(props);
+    }}
   />
 );
-
-export default AuthRoute;

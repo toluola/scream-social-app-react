@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { Link } from "@reach/router";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import AppIcon from "../assets/icon.png";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import axios from "axios";
-import { navigate } from "@reach/router";
+import { signupUser } from "../redux/actions/userActions";
 
 const styles = {
   form: {
@@ -39,30 +39,28 @@ const styles = {
   }
 };
 
-const SignupPage = ({ classes }) => {
+const SignupPage = ({
+  classes,
+  history,
+  signupUser,
+  UI: { loading, errors }
+}) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     confirmPassword: "",
     handle: ""
   });
-  const { email, password, confirmPassword, handle } = formData;
+  useEffect(() => {
+    setError(errors);
+  }, [errors]);
 
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+  const { email, password, confirmPassword, handle } = formData;
+  const [error, setError] = useState({});
 
   const handleSubmit = async event => {
-    try {
-      event.preventDefault();
-      setLoading(() => true);
-      const signupResult = await axios.post("/signup", formData);
-      localStorage.setItem("screamToken", `Bearer ${signupResult.data.token}`);
-      setLoading(false);
-      navigate("/");
-    } catch (err) {
-      setLoading(false);
-      setErrors(err.response.data);
-    }
+    event.preventDefault();
+    signupUser(formData, history);
   };
 
   const handleChange = event => {
@@ -89,8 +87,8 @@ const SignupPage = ({ classes }) => {
             label="email"
             className={classes.textField}
             value={email}
-            helperText={errors.email}
-            error={errors.email ? true : false}
+            helperText={error.email}
+            error={error.email ? true : false}
             onChange={handleChange}
             fullWidth
           />
@@ -100,8 +98,8 @@ const SignupPage = ({ classes }) => {
             type="password"
             label="password"
             className={classes.textField}
-            helperText={errors.password}
-            error={errors.password ? true : false}
+            helperText={error.password}
+            error={error.password ? true : false}
             value={password}
             onChange={handleChange}
             fullWidth
@@ -113,8 +111,8 @@ const SignupPage = ({ classes }) => {
             label="confirm password"
             className={classes.textField}
             value={confirmPassword}
-            helperText={errors.confirmPassword}
-            error={errors.confirmPassword ? true : false}
+            helperText={error.confirmPassword}
+            error={error.confirmPassword ? true : false}
             onChange={handleChange}
             fullWidth
           />
@@ -125,14 +123,14 @@ const SignupPage = ({ classes }) => {
             label="handle"
             className={classes.textField}
             value={handle}
-            helperText={errors.handle}
-            error={errors.handle ? true : false}
+            helperText={error.handle}
+            error={error.handle ? true : false}
             onChange={handleChange}
             fullWidth
           />
-          {errors.general && (
+          {error.general && (
             <Typography variant="body2" className={classes.customError}>
-              {errors.general}
+              {error.general}
             </Typography>
           )}
           <Button
@@ -158,8 +156,16 @@ const SignupPage = ({ classes }) => {
   );
 };
 
+const mapStateToProps = state => ({
+  user: state.user,
+  UI: state.UI
+});
+
 SignupPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(SignupPage);
+export default connect(
+  mapStateToProps,
+  { signupUser }
+)(withStyles(styles)(SignupPage));
