@@ -5,15 +5,15 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 // import jwtDecode from "jwt-decode";
-import { HomePage } from "./pages/home";
+import HomePage from "./pages/home";
 import LoginPage from "./pages/login";
 import SignupPage from "./pages/signup";
 // import { PrivateRoute } from "./utils/AuthRoute";
-import { NavBar } from "./components/NavBar";
+import NavBar from "./components/NavBar";
 import themeObject from "./utils/themes";
 import "./App.css";
 // import { logoutUser } from "./redux/actions/userActions";
-
+//
 const theme = createMuiTheme(themeObject);
 // const token = localStorage.FBIdToken;
 

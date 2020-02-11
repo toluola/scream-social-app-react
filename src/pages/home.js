@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Scream from "../components/Scream";
 import Profile from "../components/Profile";
+import { getScreams } from "../redux/actions/dataActions";
+import ScreamSkeleton from "../utils/ScreamSkeleton";
 
-export const HomePage = () => {
-  const [getScreams, setGetScreams] = useState([]);
+const HomePage = ({ getScreams, data: { screams, loading } }) => {
   useEffect(() => {
-    async function getAllScreams() {
-      const getScream = await axios.get("/screams");
-      setGetScreams(getScream.data);
-    }
-    getAllScreams();
-  }, []);
+    getScreams();
+  }, [getScreams]);
 
-  const originalScreams = getScreams.map(scream => (
-    <Scream key={scream.screamId} scream={scream} />
-  ));
+  const originalScreams = !loading ? (
+    screams.map(scream => <Scream key={scream.screamId} scream={scream} />)
+  ) : (
+    <ScreamSkeleton />
+  );
   return (
     <Grid container spacing={2}>
       <Grid item sm={8} xs={12}>
@@ -28,3 +27,12 @@ export const HomePage = () => {
     </Grid>
   );
 };
+
+const mapStateToProps = state => ({
+  data: state.data
+});
+
+export default connect(
+  mapStateToProps,
+  { getScreams }
+)(HomePage);
