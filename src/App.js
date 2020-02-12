@@ -12,18 +12,23 @@ import SignupPage from "./pages/signup";
 import NavBar from "./components/NavBar";
 import themeObject from "./utils/themes";
 import "./App.css";
-// import { logoutUser } from "./redux/actions/userActions";
+// import {
+//   getUserData,
+//   setAuthorizationHeader
+// } from "./redux/actions/userActions";
+// import { CLEAR_ERRORS } from "./redux/types";
 //
 const theme = createMuiTheme(themeObject);
 // const token = localStorage.FBIdToken;
 
 // if (token) {
-//   const decodedToken = jwtDecode(token);
-//   if (!decodedToken) {
-//     store.dispatch(logoutUser());
-//   }
+//   jwtDecode(token);
+//   setAuthorizationHeader(token);
+//   store.dispatch(getUserData);
+//   store.dispatch({ type: CLEAR_ERRORS });
+//   console.log("got here");
 // } else {
-//   store.dispatch(logoutUser());
+//   Redirect("/");
 // }
 function App() {
   return (
