@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/scream-social-app-react/static/css/main.8845abdb.chunk.css",
+    "main.js": "/scream-social-app-react/static/js/main.896e1e30.chunk.js",
+    "main.js.map": "/scream-social-app-react/static/js/main.896e1e30.chunk.js.map",
+    "runtime-main.js": "/scream-social-app-react/static/js/runtime-main.bb3301fd.js",
+    "runtime-main.js.map": "/scream-social-app-react/static/js/runtime-main.bb3301fd.js.map",
+    "static/js/2.4745d77b.chunk.js": "/scream-social-app-react/static/js/2.4745d77b.chunk.js",
+    "static/js/2.4745d77b.chunk.js.map": "/scream-social-app-react/static/js/2.4745d77b.chunk.js.map",
+    "index.html": "/scream-social-app-react/index.html",
+    "precache-manifest.01611ac4110c05beaa55237067e427b1.js": "/scream-social-app-react/precache-manifest.01611ac4110c05beaa55237067e427b1.js",
+    "service-worker.js": "/scream-social-app-react/service-worker.js",
+    "static/css/main.8845abdb.chunk.css.map": "/scream-social-app-react/static/css/main.8845abdb.chunk.css.map",
+    "static/js/2.4745d77b.chunk.js.LICENSE.txt": "/scream-social-app-react/static/js/2.4745d77b.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.bb3301fd.js",
+    "static/js/2.4745d77b.chunk.js",
+    "static/css/main.8845abdb.chunk.css",
+    "static/js/main.896e1e30.chunk.js"
+  ]
+}
